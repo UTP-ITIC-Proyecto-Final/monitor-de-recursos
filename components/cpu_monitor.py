@@ -1,9 +1,9 @@
 from psutil import cpu_count, cpu_freq, cpu_percent, cpu_stats, cpu_times, cpu_times_percent
-from subprocess import check_output
 
 class CPU_Monitor:
     def __init__(self):
         self.cpu_threads = cpu_count()
+        self.cpu_cores = cpu_count(logical=False)
         self.cpu_freq = cpu_freq()
         self.cpu_percent = cpu_percent()
         self.cpu_stats = cpu_stats()
@@ -11,7 +11,7 @@ class CPU_Monitor:
         self.cpu_times_percent = cpu_times_percent()
     
     def cores(self):
-        cores = int(check_output("wmic cpu get NumberOfCores").decode("utf-8").strip().replace("NumberOfCores  \r\r\n", ""))
+        cores = self.cpu_cores
         threads = self.cpu_threads
         return {
             "núcleos": cores,
@@ -19,6 +19,7 @@ class CPU_Monitor:
         }
 
     def frequency(self):
+        #! Frequency in GHz
         current = self.cpu_freq.current / 1000
         min = self.cpu_freq.min / 1000
         max = self.cpu_freq.max / 1000
