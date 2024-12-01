@@ -5,7 +5,6 @@ class CPU_Monitor:
         self.cpu_threads = cpu_count()
         self.cpu_cores = cpu_count(logical=False)
         self.cpu_freq = cpu_freq()
-        self.cpu_percent = cpu_percent()
         self.cpu_stats = cpu_stats()
         self.cpu_times = cpu_times()
         self.cpu_times_percent = cpu_times_percent()
@@ -19,7 +18,6 @@ class CPU_Monitor:
         }
 
     def frequency(self):
-        #! Frequency in GHz
         current = self.cpu_freq.current / 1000
         min = self.cpu_freq.min / 1000
         max = self.cpu_freq.max / 1000
@@ -29,9 +27,11 @@ class CPU_Monitor:
             "min": min,
             "max": max
         }
+    
+    def percent(self):
+        return cpu_percent(interval=0)
 
 if "__main__" == __name__:
     cpu = CPU_Monitor()
-    
-    print(cpu.cores())
+    # print(cpu.cpu_percent_list)
     # print(cpu_freq())
